@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
+import { ZoomIn, ZoomOut, RotateCcw, Move } from "lucide-react";
 
 interface Train {
   id: string;
@@ -25,13 +25,19 @@ interface Station {
 
 export const RailwaySimulation = () => {
   const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const mapRef = useRef<HTMLDivElement>(null);
+  
   const [trains, setTrains] = useState<Train[]>([
+    // North India
     {
       id: "1",
       name: "Shatabdi Express",
       number: "12001",
-      x: 150,
-      y: 120,
+      x: 280, // New Delhi area
+      y: 150,
       status: "moving",
       route: "New Delhi - Bhopal",
       arrival: "14:30",
@@ -42,20 +48,21 @@ export const RailwaySimulation = () => {
       id: "2",
       name: "Vande Bharat",
       number: "20001",
-      x: 300,
-      y: 200,
+      x: 200, // Gujarat area
+      y: 250,
       status: "ontime",
       route: "Mumbai - Ahmedabad",
       arrival: "09:15",
       departure: "09:20",
       speed: 1.5
     },
+    // West India
     {
       id: "3",
       name: "Saurashtra Express",
       number: "19002",
-      x: 450,
-      y: 180,
+      x: 180, // Mumbai area
+      y: 320,
       status: "delayed",
       route: "Mumbai - Jammu Tawi",
       arrival: "16:45",
@@ -66,30 +73,110 @@ export const RailwaySimulation = () => {
       id: "4",
       name: "Rajdhani Express",
       number: "12951",
-      x: 200,
-      y: 300,
+      x: 240, // Central India
+      y: 280,
       status: "moving",
       route: "New Delhi - Mumbai",
       arrival: "11:20",
       departure: "11:25",
       speed: 2.2
+    },
+    // South India
+    {
+      id: "5",
+      name: "Chennai Express",
+      number: "12163",
+      x: 350, // Chennai area
+      y: 450,
+      status: "ontime",
+      route: "Chennai - Bangalore",
+      arrival: "08:30",
+      departure: "08:35",
+      speed: 1.8
+    },
+    {
+      id: "6",
+      name: "Kerala Express",
+      number: "12626",
+      x: 310, // Kerala area
+      y: 480,
+      status: "moving",
+      route: "Trivandrum - Delhi",
+      arrival: "19:45",
+      departure: "19:50",
+      speed: 1.3
+    },
+    // East India
+    {
+      id: "7",
+      name: "Howrah Express",
+      number: "12322",
+      x: 420, // Kolkata area
+      y: 240,
+      status: "stopped",
+      route: "Howrah - Mumbai",
+      arrival: "15:30",
+      departure: "15:40",
+      speed: 1.6
+    },
+    // Northeast
+    {
+      id: "8",
+      name: "Assam Express",
+      number: "15646",
+      x: 480, // Assam area
+      y: 180,
+      status: "delayed",
+      route: "Guwahati - Delhi",
+      arrival: "12:15",
+      departure: "12:25",
+      speed: 1.4
     }
   ]);
 
   const [selectedTrain, setSelectedTrain] = useState<Train | null>(null);
 
+  // Comprehensive Indian railway stations with realistic positions
   const stations: Station[] = [
-    { id: "1", name: "New Delhi", x: 140, y: 110 },
-    { id: "2", name: "Mumbai Central", x: 290, y: 290 },
-    { id: "3", name: "Ahmedabad", x: 320, y: 190 },
-    { id: "4", name: "Bhopal", x: 250, y: 200 },
-    { id: "5", name: "Jammu Tawi", x: 100, y: 80 },
-    { id: "6", name: "Chennai Central", x: 350, y: 380 },
-    { id: "7", name: "Kolkata", x: 480, y: 200 },
-    { id: "8", name: "Bangalore", x: 340, y: 350 }
+    // North India
+    { id: "1", name: "New Delhi", x: 280, y: 150 },
+    { id: "2", name: "Chandigarh", x: 270, y: 120 },
+    { id: "3", name: "Amritsar", x: 250, y: 100 },
+    { id: "4", name: "Jammu Tawi", x: 260, y: 80 },
+    
+    // West India
+    { id: "5", name: "Mumbai Central", x: 180, y: 320 },
+    { id: "6", name: "Ahmedabad", x: 200, y: 250 },
+    { id: "7", name: "Pune", x: 190, y: 340 },
+    { id: "8", name: "Surat", x: 185, y: 280 },
+    
+    // Central India
+    { id: "9", name: "Bhopal", x: 240, y: 200 },
+    { id: "10", name: "Indore", x: 220, y: 220 },
+    { id: "11", name: "Nagpur", x: 280, y: 260 },
+    { id: "12", name: "Raipur", x: 320, y: 260 },
+    
+    // South India
+    { id: "13", name: "Chennai Central", x: 350, y: 450 },
+    { id: "14", name: "Bangalore", x: 330, y: 420 },
+    { id: "15", name: "Hyderabad", x: 320, y: 380 },
+    { id: "16", name: "Kochi", x: 310, y: 480 },
+    { id: "17", name: "Trivandrum", x: 315, y: 500 },
+    { id: "18", name: "Coimbatore", x: 320, y: 460 },
+    
+    // East India
+    { id: "19", name: "Howrah", x: 420, y: 240 },
+    { id: "20", name: "Sealdah", x: 425, y: 235 },
+    { id: "21", name: "Bhubaneswar", x: 390, y: 300 },
+    { id: "22", name: "Cuttack", x: 395, y: 295 },
+    
+    // Northeast
+    { id: "23", name: "Guwahati", x: 480, y: 180 },
+    { id: "24", name: "Dibrugarh", x: 520, y: 170 },
+    { id: "25", name: "Agartala", x: 460, y: 210 }
   ];
 
-  // Animate trains
+  // Animate trains moving along realistic routes
   useEffect(() => {
     const interval = setInterval(() => {
       setTrains(prevTrains => 
@@ -99,10 +186,38 @@ export const RailwaySimulation = () => {
           y: train.y + (Math.random() - 0.5) * train.speed,
         }))
       );
-    }, 1000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);
+
+  // Mouse handlers for pan functionality
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setDragStart({
+      x: e.clientX - pan.x,
+      y: e.clientY - pan.y,
+    });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    
+    setPan({
+      x: e.clientX - dragStart.x,
+      y: e.clientY - dragStart.y,
+    });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    setZoom(prev => Math.max(0.3, Math.min(4, prev + delta)));
+  };
 
   const getTrainColor = (status: Train['status']) => {
     switch (status) {
@@ -114,23 +229,34 @@ export const RailwaySimulation = () => {
     }
   };
 
-  const handleZoomIn = () => setZoom(prev => Math.min(prev + 0.2, 3));
-  const handleZoomOut = () => setZoom(prev => Math.max(prev - 0.2, 0.5));
-  const handleReset = () => setZoom(1);
+  const handleZoomIn = () => setZoom(prev => Math.min(prev + 0.3, 4));
+  const handleZoomOut = () => setZoom(prev => Math.max(prev - 0.3, 0.3));
+  const handleReset = () => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  };
 
   return (
-    <div className="w-full h-80 bg-map-background border border-border rounded-lg relative overflow-hidden shadow-card">
+    <div className="w-full h-80 bg-slate-900 border border-border rounded-lg relative overflow-hidden shadow-card">
       {/* Map Controls */}
-      <div className="absolute top-4 right-4 z-10 flex space-x-2">
-        <Button onClick={handleZoomIn} size="sm" variant="outline" className="bg-background">
-          <ZoomIn className="h-4 w-4" />
-        </Button>
-        <Button onClick={handleZoomOut} size="sm" variant="outline" className="bg-background">
-          <ZoomOut className="h-4 w-4" />
-        </Button>
-        <Button onClick={handleReset} size="sm" variant="outline" className="bg-background">
-          <RotateCcw className="h-4 w-4" />
-        </Button>
+      <div className="absolute top-4 right-4 z-10 flex flex-col space-y-2">
+        <div className="flex space-x-2">
+          <Button onClick={handleZoomIn} size="sm" variant="outline" className="bg-background hover:bg-accent">
+            <ZoomIn className="h-4 w-4" />
+          </Button>
+          <Button onClick={handleZoomOut} size="sm" variant="outline" className="bg-background hover:bg-accent">
+            <ZoomOut className="h-4 w-4" />
+          </Button>
+          <Button onClick={handleReset} size="sm" variant="outline" className="bg-background hover:bg-accent">
+            <RotateCcw className="h-4 w-4" />
+          </Button>
+        </div>
+        <div className="bg-background/95 backdrop-blur-sm rounded-md p-2 border border-border">
+          <div className="flex items-center space-x-2 text-xs text-muted-foreground">
+            <Move className="h-3 w-3" />
+            <span>Drag to pan • Scroll to zoom</span>
+          </div>
+        </div>
       </div>
 
       {/* Legend */}
@@ -156,20 +282,51 @@ export const RailwaySimulation = () => {
         </div>
       </div>
 
-      {/* Railway Map */}
+      {/* Railway Map of India */}
       <div 
-        className="w-full h-full relative bg-gradient-to-br from-slate-50 to-slate-100"
-        style={{ transform: `scale(${zoom})`, transformOrigin: "center center" }}
+        ref={mapRef}
+        className={`w-full h-full relative bg-gradient-to-br from-slate-800 to-slate-900 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+        style={{ 
+          transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
+          transformOrigin: "center center"
+        }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onWheel={handleWheel}
       >
-        {/* Railway tracks - simplified lines */}
+        {/* India outline - simplified representation */}
         <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }}>
-          {/* Main railway lines */}
-          <line x1="140" y1="110" x2="290" y2="290" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
-          <line x1="290" y1="190" x2="480" y2="200" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
-          <line x1="140" y1="110" x2="100" y2="80" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
-          <line x1="290" y1="290" x2="350" y2="380" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
-          <line x1="350" y1="380" x2="340" y2="350" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
-          <line x1="250" y1="200" x2="290" y2="290" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <defs>
+            <pattern id="mapGrid" width="50" height="50" patternUnits="userSpaceOnUse">
+              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
+            </pattern>
+          </defs>
+          
+          {/* Grid background */}
+          <rect width="100%" height="100%" fill="url(#mapGrid)" />
+          
+          {/* Major railway corridors */}
+          {/* Golden Quadrilateral */}
+          <line x1="280" y1="150" x2="180" y2="320" stroke="#fbbf24" strokeWidth="3" strokeDasharray="8,4" opacity="0.8" />
+          <line x1="180" y1="320" x2="330" y2="420" stroke="#fbbf24" strokeWidth="3" strokeDasharray="8,4" opacity="0.8" />
+          <line x1="330" y1="420" x2="420" y2="240" stroke="#fbbf24" strokeWidth="3" strokeDasharray="8,4" opacity="0.8" />
+          <line x1="420" y1="240" x2="280" y2="150" stroke="#fbbf24" strokeWidth="3" strokeDasharray="8,4" opacity="0.8" />
+          
+          {/* North-South corridors */}
+          <line x1="280" y1="150" x2="240" y2="200" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="240" y1="200" x2="180" y2="320" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="180" y1="320" x2="315" y2="500" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          
+          {/* East-West corridors */}
+          <line x1="200" y1="250" x2="420" y2="240" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="420" y1="240" x2="480" y2="180" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          
+          {/* Additional major routes */}
+          <line x1="330" y1="420" x2="350" y2="450" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="280" y1="150" x2="270" y2="120" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="270" y1="120" x2="250" y2="100" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
         </svg>
 
         {/* Stations */}
