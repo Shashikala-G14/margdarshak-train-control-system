@@ -237,7 +237,7 @@ export const RailwaySimulation = () => {
   };
 
   return (
-    <div className="w-full h-80 bg-slate-900 border border-border rounded-lg relative overflow-hidden shadow-card">
+    <div className="w-full h-96 bg-slate-900 border border-border rounded-lg relative overflow-hidden shadow-card">
       {/* Map Controls */}
       <div className="absolute top-4 right-4 z-10 flex flex-col space-y-2">
         <div className="flex space-x-2">
@@ -309,10 +309,10 @@ export const RailwaySimulation = () => {
           
           {/* Major railway corridors */}
           {/* Golden Quadrilateral */}
-          <line x1="280" y1="150" x2="180" y2="320" stroke="#fbbf24" strokeWidth="3" strokeDasharray="8,4" opacity="0.8" />
-          <line x1="180" y1="320" x2="330" y2="420" stroke="#fbbf24" strokeWidth="3" strokeDasharray="8,4" opacity="0.8" />
-          <line x1="330" y1="420" x2="420" y2="240" stroke="#fbbf24" strokeWidth="3" strokeDasharray="8,4" opacity="0.8" />
-          <line x1="420" y1="240" x2="280" y2="150" stroke="#fbbf24" strokeWidth="3" strokeDasharray="8,4" opacity="0.8" />
+          <line x1="280" y1="150" x2="180" y2="320" stroke="white" strokeWidth="3" strokeDasharray="8,4" opacity="0.8" />
+          <line x1="180" y1="320" x2="330" y2="420" stroke="white" strokeWidth="3" strokeDasharray="8,4" opacity="0.8" />
+          <line x1="330" y1="420" x2="420" y2="240" stroke="white" strokeWidth="3" strokeDasharray="8,4" opacity="0.8" />
+          <line x1="420" y1="240" x2="280" y2="150" stroke="white" strokeWidth="3" strokeDasharray="8,4" opacity="0.8" />
           
           {/* North-South corridors */}
           <line x1="280" y1="150" x2="240" y2="200" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
@@ -327,6 +327,18 @@ export const RailwaySimulation = () => {
           <line x1="330" y1="420" x2="350" y2="450" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
           <line x1="280" y1="150" x2="270" y2="120" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
           <line x1="270" y1="120" x2="250" y2="100" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          
+          {/* Additional detailed tracks */}
+          <line x1="280" y1="260" x2="320" y2="260" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="190" y1="340" x2="220" y2="220" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="350" y1="450" x2="320" y2="380" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="320" y1="380" x2="280" y2="260" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="420" y1="240" x2="390" y2="300" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="390" y1="300" x2="350" y2="450" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="480" y1="180" x2="460" y2="210" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="200" y1="250" x2="185" y2="280" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="240" y1="200" x2="270" y2="120" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="320" y1="460" x2="310" y2="480" stroke="hsl(var(--track-primary))" strokeWidth="2" strokeDasharray="5,5" />
         </svg>
 
         {/* Stations */}
