@@ -19,6 +19,43 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        
+        // Railway system colors
+        "railway-primary": {
+          DEFAULT: "hsl(var(--railway-primary))",
+          foreground: "hsl(var(--railway-primary-foreground))",
+        },
+        "railway-secondary": {
+          DEFAULT: "hsl(var(--railway-secondary))",
+          foreground: "hsl(var(--railway-secondary-foreground))",
+        },
+        
+        // Train status colors
+        "train-moving": "hsl(var(--train-moving))",
+        "train-delayed": "hsl(var(--train-delayed))",
+        "train-stopped": "hsl(var(--train-stopped))",
+        "train-ontime": "hsl(var(--train-ontime))",
+        
+        // Status colors
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+        danger: {
+          DEFAULT: "hsl(var(--danger))",
+          foreground: "hsl(var(--danger-foreground))",
+        },
+        
+        // Map colors
+        "map-background": "hsl(var(--map-background))",
+        "track-primary": "hsl(var(--track-primary))",
+        "track-conflict": "hsl(var(--track-conflict))",
+        "station-marker": "hsl(var(--station-marker))",
+        
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -57,6 +94,19 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+      },
+      backgroundImage: {
+        "gradient-primary": "var(--gradient-primary)",
+        "gradient-status": "var(--gradient-status)",
+        "gradient-danger": "var(--gradient-danger)",
+      },
+      boxShadow: {
+        "card": "var(--shadow-card)",
+        "elevated": "var(--shadow-elevated)",
+      },
+      transitionProperty: {
+        "smooth": "var(--transition-smooth)",
+        "fast": "var(--transition-fast)",
       },
       borderRadius: {
         lg: "var(--radius)",
