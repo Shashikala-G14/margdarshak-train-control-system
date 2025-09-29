@@ -7,7 +7,7 @@
 @layer base {
   :root {
     /* Core colors for professional railway control system */
-    --background: 248 250 252;
+    --background: 0 0% 100%;
     --foreground: 215 25% 27%;
     
     /* Railway brand colors */

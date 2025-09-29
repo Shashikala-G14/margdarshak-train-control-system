@@ -237,7 +237,7 @@ export const RailwaySimulation = () => {
   };
 
   return (
-    <div className="w-full h-96 bg-slate-900 border border-border rounded-lg relative overflow-hidden shadow-card">
+    <div className="w-full h-full bg-slate-900 relative overflow-hidden">
       {/* Map Controls */}
       <div className="absolute top-4 right-4 z-10 flex flex-col space-y-2">
         <div className="flex space-x-2">

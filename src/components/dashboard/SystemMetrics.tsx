@@ -66,7 +66,7 @@ const MetricCard = ({ title, value, subtitle, status = 'neutral', progress, tren
 export const SystemMetrics = () => {
   return (
     <div className="w-full space-y-6">
-      {/* Track Conflicts */}
+      {/* Critical Status - Full Width */}
       <div className="w-full">
         <MetricCard
           title="Track Conflicts Detected"
@@ -77,8 +77,8 @@ export const SystemMetrics = () => {
         />
       </div>
 
-      {/* Train Status Overview */}
-      <div className="w-full">
+      {/* Train Status Overview - Two Columns */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <MetricCard
           title="Delayed Trains"
           value={12}
@@ -86,9 +86,6 @@ export const SystemMetrics = () => {
           status="warning"
           trend="down"
         />
-      </div>
-
-      <div className="w-full">
         <MetricCard
           title="Moving Trains"
           value={156}
@@ -98,7 +95,7 @@ export const SystemMetrics = () => {
         />
       </div>
 
-      <div className="w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <MetricCard
           title="Stopped Trains"
           value={8}
@@ -106,10 +103,6 @@ export const SystemMetrics = () => {
           status="neutral"
           trend="stable"
         />
-      </div>
-
-      {/* Weather Impact */}
-      <div className="w-full">
         <MetricCard
           title="Weather Affected Routes"
           value={5}
@@ -119,8 +112,8 @@ export const SystemMetrics = () => {
         />
       </div>
 
-      {/* Construction Work */}
-      <div className="w-full">
+      {/* Infrastructure Status - Two Columns */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <MetricCard
           title="Construction Activities"
           value={2}
@@ -128,10 +121,6 @@ export const SystemMetrics = () => {
           status="warning"
           trend="stable"
         />
-      </div>
-
-      {/* Track Availability */}
-      <div className="w-full">
         <MetricCard
           title="Track Availability"
           value="87%"
@@ -142,7 +131,7 @@ export const SystemMetrics = () => {
         />
       </div>
 
-      <div className="w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <MetricCard
           title="Tracks Occupied"
           value={245}
@@ -151,9 +140,6 @@ export const SystemMetrics = () => {
           progress={65}
           trend="stable"
         />
-      </div>
-
-      <div className="w-full">
         <MetricCard
           title="Tracks Under Construction"
           value={18}
@@ -163,7 +149,7 @@ export const SystemMetrics = () => {
         />
       </div>
 
-      {/* AI Decision Support */}
+      {/* AI Support - Full Width */}
       <div className="w-full">
         <MetricCard
           title="AI Recommendations"
