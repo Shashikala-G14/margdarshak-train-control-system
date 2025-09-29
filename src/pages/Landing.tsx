@@ -73,7 +73,7 @@ const Landing = () => {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-5xl md:text-6xl font-bold text-foreground mb-6 animate-fade-in">
               Intelligent Railway
-              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"> Control System</span>
+              <span className="bg-gradient-to-r "> Control System</span>
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto animate-fade-in delay-200">
               Advanced AI-powered decision support system for optimal train scheduling, real-time tracking, and conflict resolution across the Indian railway network.
@@ -82,7 +82,8 @@ const Landing = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-in delay-400">
               <Button 
                 size="lg" 
-                className="px-8 py-6 text-lg font-semibold bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 shadow-lg hover:shadow-xl transition-all duration-300"
+                className="px-8 py-6 text-lg font-semiboldbg-[hsl(var(--railway-primary))] text-[hsl(var(--railway-primary-foreground))] hover:bg-orange-600
+ from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 shadow-lg hover:shadow-xl transition-all duration-300"
                 onClick={() => navigate('/dashboard')}
               >
                 <Train className="mr-2 h-5 w-5" />
@@ -211,7 +212,8 @@ const Landing = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="px-8 py-6 text-lg font-semibold bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 shadow-lg hover:shadow-xl transition-all duration-300"
+                className="px-8 py-6 text-lg font-semibold bg-[hsl(var(--railway-primary))] text-[hsl(var(--railway-primary-foreground))] hover:bg-orange-600
+ from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 shadow-lg shadow-lg hover:shadow-xl transition-all duration-300"
                 onClick={() => navigate('/dashboard')}
               >
                 <Activity className="mr-2 h-5 w-5" />
