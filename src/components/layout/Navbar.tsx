@@ -6,7 +6,7 @@ import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navigation = [
-  { name: "Dashboard", href: "/" },
+  { name: "Dashboard", href: "/dashboard" },
   { name: "Train Simulation", href: "/simulation" },
   { name: "AI Decision Support", href: "/ai-decision" },
   { name: "Live Train Status", href: "/live-status" },

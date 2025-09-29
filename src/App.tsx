@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
+import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import TrainSimulation from "./pages/TrainSimulation";
 import AIDecisionSupport from "./pages/AIDecisionSupport";
@@ -20,18 +21,20 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/simulation" element={<TrainSimulation />} />
-            <Route path="/ai-decision" element={<AIDecisionSupport />} />
-            <Route path="/live-status" element={<LiveTrainStatus />} />
-            <Route path="/weather-impact" element={<WeatherImpact />} />
-            <Route path="/assistant" element={<MargdarshakAssistant />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
+        <Routes>
+          {/* Landing page without layout */}
+          <Route path="/" element={<Landing />} />
+          
+          {/* Dashboard and features with layout */}
+          <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+          <Route path="/simulation" element={<Layout><TrainSimulation /></Layout>} />
+          <Route path="/ai-decision" element={<Layout><AIDecisionSupport /></Layout>} />
+          <Route path="/live-status" element={<Layout><LiveTrainStatus /></Layout>} />
+          <Route path="/weather-impact" element={<Layout><WeatherImpact /></Layout>} />
+          <Route path="/assistant" element={<Layout><MargdarshakAssistant /></Layout>} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<Layout><NotFound /></Layout>} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
